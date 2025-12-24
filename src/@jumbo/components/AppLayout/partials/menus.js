@@ -17,6 +17,7 @@ import {
   Terminal,
   Science,
   Check,
+  QuestionAnswer,
 } from '@mui/icons-material';
 
 export const sidebarNavs = [
@@ -115,6 +116,12 @@ export const sidebarNavs = [
         icon: <LocalFireDepartment />,
         link: '/fireworks',
       },
+      // {
+      //   name: 'Items',
+      //   type: 'item',
+      //   icon: <QuestionAnswer/>,
+      //   link:'/items',
+      // },
       {
         name: 'Quests',
         type: 'item',

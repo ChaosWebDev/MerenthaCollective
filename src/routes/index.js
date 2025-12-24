@@ -21,6 +21,7 @@ import Fireworks from './Pages/General/Fireworks';
 import Rolling from './Pages/General/Rolling';
 import Socials from './Pages/General/Socials';
 import Quests from './Pages/General/Quests';
+import Items from './Pages/General/Items';
 //- GUIDES -//
 import Builder from './Pages/Guides/Builder';
 import BuilderRooms from './Pages/Guides/Builder/Rooms';
@@ -71,6 +72,7 @@ const Routes = () => {
           {/* ================= General ================= */}
           <Route path="/coords" component={Coordinates} />
           <Route path="/combat" component={Combat} />
+          <Route path="/items" component={Items} />
           <Route path="/socials" component={Socials} />
           <Route path="/fireworks" component={Fireworks} />
           <Route path="/rolling" component={Rolling} />
