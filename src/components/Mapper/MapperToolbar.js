@@ -183,7 +183,9 @@ const MapperToolbar = ({
   const handleExportPNG = () => {
     if (!diagramRef) return;
     const originalGridVisible = diagramRef.grid.visible;
+    const originalSelection = diagramRef.selection.toArray();
     diagramRef.grid.visible = false;
+    diagramRef.clearSelection();
     const imgData = diagramRef.makeImageData({
       background: 'white',
       scale: 2,
@@ -191,6 +193,7 @@ const MapperToolbar = ({
       maxSize: new go.Size(Infinity, Infinity),
     });
     diagramRef.grid.visible = originalGridVisible;
+    diagramRef.selectCollection(originalSelection);
     const link = document.createElement('a');
     link.href = imgData;
     const timestamp = new Date().toISOString().slice(0, 10);
@@ -352,10 +355,10 @@ const MapperToolbar = ({
         border: '1px solid #e0e0e0',
       }}>
       {/* FILE GROUP */}
-      <ToolbarButton icon={<NoteAdd fontSize="small" />} tooltip="New Map (Ctrl+N)" onClick={handleNew} />
-      <ToolbarButton icon={<Save fontSize="small" />} tooltip="Save Map (Ctrl+S)" onClick={handleSave} />
-      <ToolbarButton icon={<FolderOpen fontSize="small" />} tooltip="Load Map (Ctrl+O)" onClick={handleLoad} />
-      <ToolbarButton icon={<Image fontSize="small" />} tooltip="Export PNG (Ctrl+E)" onClick={handleExportPNG} />
+      <ToolbarButton icon={<NoteAdd fontSize="small" />} tooltip="New Map" onClick={handleNew} />
+      <ToolbarButton icon={<Save fontSize="small" />} tooltip="Save Map" onClick={handleSave} />
+      <ToolbarButton icon={<FolderOpen fontSize="small" />} tooltip="Load Map" onClick={handleLoad} />
+      <ToolbarButton icon={<Image fontSize="small" />} tooltip="Export PNG" onClick={handleExportPNG} />
 
       <Divider orientation="vertical" flexItem sx={{ mx: 0.5, borderColor: '#dadce0' }} />
 
