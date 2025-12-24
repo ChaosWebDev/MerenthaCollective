@@ -67,7 +67,7 @@ const Cleric = () => {
   if (!subclass) {
     header = 'Cleric Guide';
   } else {
-    header = `${active.charAt(0).toUpperCase() + active.slice(1)} Cleric Guide`;
+    header = `Cleric Guide - ${active.charAt(0).toUpperCase() + active.slice(1)}`;
   }
 
   return (
