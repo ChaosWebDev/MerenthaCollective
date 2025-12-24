@@ -27,10 +27,13 @@ const ItemContent = ({ items }) => {
       items.map((entry, index) => ({
         id: index,
         name: entry.name ?? entry,
-        level: entry.level ?? 0,
-        levelName: getLevelName(entry.level ?? 0),
+
+        level: entry.requirements?.level ?? entry.level ?? 0,
+        levelName: getLevelName(entry.requirements?.level ?? entry.level ?? 0),
+
         subarea: entry.subarea ?? '',
         details: entry.details ?? '',
+        requirements: entry.requirements ?? {},
         isQuest: Boolean(entry.isQuest),
       })),
     [items],
@@ -95,6 +98,8 @@ const ItemContent = ({ items }) => {
                 </TableSortLabel>
               </TableCell>
 
+              <TableCell>Other Requirements</TableCell>
+
               <TableCell>
                 <TableSortLabel
                   active={orderBy === 'subarea'}
@@ -119,6 +124,10 @@ const ItemContent = ({ items }) => {
                 </TableCell>
 
                 <TableCell>{row.levelName}</TableCell>
+
+                <TableCell>{row.requirements?.level}</TableCell>
+
+                <TableCell>{row.requirements?.other}</TableCell>
 
                 <TableCell>{row.subarea}</TableCell>
 

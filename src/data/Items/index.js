@@ -13,6 +13,9 @@ const items = [
     name: 'Crystal Ball',
     subarea: 'Cabeiri',
     details: 'Newbie level magic defense item.',
+    requirements: {
+      level: 0,
+    },
     isQuest: true,
     level: 1,
   },
@@ -20,6 +23,9 @@ const items = [
     name: 'Blue Eyes',
     subarea: 'Mystic Forest',
     details: 'HM level magic defense item.',
+    requirements: {
+      level: 0,
+    },
     isQuest: true,
     level: 3,
   },
@@ -27,13 +33,19 @@ const items = [
     name: 'Black Swirling Orb',
     subarea: 'Holgresh',
     details: 'Elite level magic defense item.',
+    requirements: {
+      other: 'Elite',
+    },
     isQuest: false,
     level: 4,
   },
   {
     name: 'Irredescent Pearls',
     subarea: '',
-    details: 'Legandary (120+) level magic defense item.',
+    details: 'Legandary level magic defense item.',
+    requirements: {
+      other: 'Level 120 +',
+    },
     isQuest: false,
     level: 5,
   },
@@ -43,6 +55,9 @@ const weapons = [
   {
     name: 'Newbie Sword',
     subarea: 'Cabeiri',
+    requirements: {
+      level: 0,
+    },
     details: 'Newbie item upon character creation',
   },
 ].sort((a, b) => a.level - b.level || a.number - b.number);
@@ -51,6 +66,9 @@ const armor = [
   {
     name: 'Newbie Armor',
     subarea: 'Cabeiri',
+    requirements: {
+      level: 0,
+    },
     details: 'Newbie item upon character creation',
   },
 ].sort((a, b) => a.level - b.level || a.number - b.number);
