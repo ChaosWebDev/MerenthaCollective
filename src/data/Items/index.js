@@ -49,7 +49,7 @@ const items = [
     isQuest: false,
     level: 5,
   },
-].sort((a, b) => a.level - b.level || a.number - b.number);
+].sort((a, b) => a.level - b.level);
 
 const weapons = [
   {
@@ -60,7 +60,7 @@ const weapons = [
     },
     details: 'Newbie item upon character creation',
   },
-].sort((a, b) => a.level - b.level || a.number - b.number);
+].sort((a, b) => a.level - b.level);
 
 const armor = [
   {
@@ -71,6 +71,15 @@ const armor = [
     },
     details: 'Newbie item upon character creation',
   },
-].sort((a, b) => a.level - b.level || a.number - b.number);
+  {
+    name: 'Crystal Skull Earrings',
+    subarea: '',
+    level: 4,
+    requirements: {
+      level: 'Unknown',
+    },
+    details: 'Pretty Earrings',
+  },
+].sort((a, b) => a.level - b.level);
 
 export { items, weapons, armor };
