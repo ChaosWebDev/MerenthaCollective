@@ -163,3 +163,39 @@ export const HealthStatus = [
     message: 'is mortally wounded',
   },
 ];
+
+export const ConsiderStatus = [
+  {
+    message: 'You will need the help of the gods to kill <target>',
+  },
+  {
+    message: 'You will need an army of friends to help you kill <target>',
+  },
+  {
+    message: "You shouldn't try to kill <target> without some help",
+  },
+  {
+    message: '<target> will most likely beat you to a pulp',
+  },
+  {
+    message: 'Fighting <target> would not be too wise',
+  },
+  {
+    message: 'You will most likely lose to <target> in a fair fight',
+  },
+  {
+    message: 'It would be a pretty even fight',
+  },
+  {
+    message: 'You could probably beat <target> in a fair battle',
+  },
+  {
+    message: 'You could possibly kill <target>',
+  },
+  {
+    message: 'You should be able to take <target> without breaking a sweat',
+  },
+  {
+    message: 'Why bother with such a little guy',
+  },
+];

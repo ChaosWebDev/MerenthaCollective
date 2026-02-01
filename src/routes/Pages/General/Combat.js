@@ -6,7 +6,7 @@ import CmtCard from '@coremat/CmtCard';
 import CmtCardContent from '@coremat/CmtCard/CmtCardContent';
 import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import Code from 'common/Code';
-import { MeleeCombat, SpellCombat, HealthStatus } from 'data/Combat';
+import { MeleeCombat, SpellCombat, HealthStatus, ConsiderStatus } from 'data/Combat';
 
 const breadcrumbs = [
   { label: 'Main', link: '/' },
@@ -108,7 +108,7 @@ const Combat = () => {
             </CmtCardContent>
           </CmtCard>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={6}>
           <CmtCard>
             <CmtCardContent>
               <Typography variant="h4" style={{ marginBottom: '10px' }}>
@@ -131,6 +131,39 @@ const Combat = () => {
                   {HealthStatus.map((row, i) => (
                     <TableRow key={i}>
                       <TypographyCell>{row.percent}</TypographyCell>
+                      <TypographyCell>{row.message}</TypographyCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CmtCardContent>
+          </CmtCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <CmtCard>
+            <CmtCardContent>
+              <Typography variant="h4" style={{ marginBottom: '10px' }}>
+                Consider Status Messages
+              </Typography>
+              <Typography>
+                These status messages appear when considering a creature or player, indicating their current difficulty.
+                These messages are not a reliable gauge and have been confirmed to need updating. It's a raw calculation
+                based on stat differences.
+              </Typography>
+            </CmtCardContent>
+            <CmtCardContent>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TypographyCell>Difficulty</TypographyCell>
+                    <TypographyCell>Status Message</TypographyCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {ConsiderStatus.map((row, i) => (
+                    <TableRow key={i}>
+                      <TypographyCell>{i + 1}</TypographyCell>
                       <TypographyCell>{row.message}</TypographyCell>
                     </TableRow>
                   ))}
