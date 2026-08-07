@@ -23,9 +23,7 @@ const FireworkValues = [
   },
   {
     range: '<4900',
-    messages: [
-      'A massive fireball explodes high in the air in a flurry of colours. Sparks burn through the air like falling stars.',
-    ],
+    messages: ['Your fireball lights up the sky, then explodes in a flurry of colours.'],
   },
   {
     range: '<6300',
