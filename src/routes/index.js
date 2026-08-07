@@ -33,6 +33,7 @@ import Monk from './Pages/Guides/Classes/Monk';
 import Rogue from './Pages/Guides/Classes/Rogue';
 import Newbie from './Pages/Guides/Newbie';
 import Pet from './Pages/Guides/Pet';
+import Gmcp from './Pages/Guides/Gmcp';
 //- 404 Fallback -//
 import Error404 from './Pages/404';
 
@@ -99,7 +100,7 @@ const Routes = () => {
           {/* ================= Guides – Other ================= */}
           <Route path="/guides/newbie" component={Newbie} />
           <Route path="/guides/pets" component={Pet} />
-
+          <Route path="/guides/gmcp" component={Gmcp} />
           {/* ================= Guides – Hidden ================= */}
           <Route path="/guides/builder/rooms" component={BuilderRooms} />
           <Route path="/guides/builder" component={Builder} />
