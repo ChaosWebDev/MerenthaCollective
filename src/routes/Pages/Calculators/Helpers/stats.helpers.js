@@ -1,19 +1,15 @@
-import { raceStats } from 'data/Races';
+import { raceStats, classStats } from 'data/Races';
 
 export const BASE_FACTOR = 0.525;
-export const CLASS = {
+export const TIERS = {
   1: 0.0,
-  2: 0.425,
-  3: 0.7,
-  4: 2.5,
+  2: 0.3,
+  3: 0.55,
+  4: 0.7,
+  5: 2.0,
 };
-export const RACE = {
-  1: 0.0,
-  2: 0.325,
-  3: 0.8,
-  4: 2.0,
-  5: 3.0,
-};
+export const RACE_DEFAULT = 4;
+export const CLASS_DEFAULT = 5;
 
 // ------------------------------------------------------------
 
@@ -29,96 +25,46 @@ export function getMaxExp(level) {
 
 // ------------------------------------------------------------
 
+export function getRaceRank(race, stat) {
+  if (!raceStats[race] || !raceStats[race][stat]) return RACE_DEFAULT;
+  return raceStats[race][stat];
+}
+
+export function getClassRank(cl, stat) {
+  if (!classStats[cl] || !classStats[cl][stat]) return CLASS_DEFAULT;
+  return classStats[cl][stat];
+}
+
+// ------------------------------------------------------------
+
 export function getClassModifier(charClass, stat) {
-  let result = CLASS[4];
-  if (charClass === 'Dragon') {
-    result = CLASS[3];
-  } else if (charClass === 'Cleric') {
-    switch (stat) {
-      case 'Charisma':
-      case 'Intelligence':
-        result = CLASS[1];
-        break;
-      case 'Strength':
-      case 'Wisdom':
-        result = CLASS[2];
-        break;
-      default:
-        break;
-    }
-  } else if (charClass === 'Fighter') {
-    switch (stat) {
-      case 'Strength':
-      case 'Constitution':
-        result = CLASS[1];
-        break;
-      case 'Dexterity':
-        result = CLASS[2];
-        break;
-      default:
-        break;
-    }
-  } else if (charClass === 'Mage') {
-    switch (stat) {
-      case 'Intelligence':
-      case 'Wisdom':
-        result = CLASS[1];
-        break;
-      case 'Charisma':
-        result = CLASS[2];
-        break;
-      default:
-        break;
-    }
-  } else if (charClass === 'Monk') {
-    switch (stat) {
-      case 'Strength':
-      case 'Constitution':
-      case 'Dexterity':
-      case 'Intelligence':
-      case 'Wisdom':
-        result = CLASS[2];
-        break;
-      default:
-        break;
-    }
-  } else if (charClass === 'Rogue') {
-    switch (stat) {
-      case 'Charisma':
-      case 'Dexterity':
-        result = CLASS[1];
-        break;
-      case 'Strength':
-        result = CLASS[2];
-        break;
-      case 'Constitution':
-        result = CLASS[3];
-        break;
-      default:
-        break;
-    }
+  switch (getClassRank(charClass, stat)) {
+    case 1:
+      return TIERS[1];
+    case 2:
+      return TIERS[2];
+    case 3:
+      return TIERS[3];
+    case 4:
+      return TIERS[4];
+    default:
+      return TIERS[5];
   }
-  return result;
 }
 
 export function getRaceModifier(race, stat) {
-  let rank = RACE[5];
-  if (race === 'Dragon') {
-    return RACE[1];
-  } else if (!raceStats[stat]) {
-    rank = 3;
-  } else {
-    Object.keys(raceStats[stat]).forEach((tier) => {
-      if (raceStats[stat][tier].indexOf(race) > -1) {
-        rank = +tier;
-      }
-    });
+  switch (getRaceRank(race, stat)) {
+    case 1:
+      return TIERS[1];
+    case 2:
+      return TIERS[2];
+    case 3:
+      return TIERS[3];
+    case 4:
+      return TIERS[4];
+    default:
+      return TIERS[5];
   }
-  let result = 0.0;
-  if (RACE[rank]) {
-    result = RACE[rank];
-  }
-  return result;
 }
 
 export function getBaseCost(level) {

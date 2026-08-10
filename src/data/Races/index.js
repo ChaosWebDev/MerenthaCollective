@@ -28,50 +28,50 @@ export const races = [
   'Lich',
 ];
 
+// Structured as raceStats[Race][Stat] = tier (1-5).
+// Any stat not listed for a race falls back to RACE_DEFAULT (tier 4) in getRaceRank.
+// Transcribed directly from the developer-provided race_stats mapping.
 export const raceStats = {
-  Strength: {
-    1: ['Satyr', 'Troll', 'Dragon', 'Giant', 'Were-wolf'],
-    2: ['Centaur', 'Dwarf', 'Orc', 'Half-ogre', 'Ogre', 'Goblin', 'Ogre-magi', 'Drow-elf', 'Gnoll', 'Kobold'],
-    4: ['Nymph', 'Faerie', 'Imp'],
-  },
-  Charisma: {
-    1: ['Dragon', 'Nymph', 'Human'],
-    2: ['Half-elf', 'Hobbit', 'Faerie'],
-    4: ['Satyr', 'Gnome', 'Troll', 'Ogre', 'Drow-elf', 'Artrell', 'Ogre-magi', 'Giant'],
-  },
-  Constitution: {
-    1: ['Dragon', 'Ogre', 'Centaur', 'Kender'],
-    2: ['Ogre-magi', 'Orc', 'Half-orc', 'Kobold', 'Gnoll', 'Giant', 'Troll'],
-    4: ['Faerie', 'Halfling', 'Nymph', 'Imp'],
-  },
-  Dexterity: {
-    1: ['Artrell', 'Dragon', 'Halfling', 'Hobbit'],
-    2: [
-      'Half-elf',
-      'Nymph',
-      'Satyr',
-      'Kender',
-      'Faerie',
-      'Goblin',
-      'Kobold',
-      'Half-orc',
-      'Drow-elf',
-      'Were-wolf',
-      'Imp',
-      'Centaur',
-    ],
-    4: ['Ogre-magi'],
-  },
-  Intelligence: {
-    1: ['Dragon', 'Lich', 'Imp', 'Elf', 'Gnome'],
-    2: ['Imp', 'Faerie', 'Ogre-magi', 'Drow-elf', 'Half-ogre', 'Halfling', 'Kender'],
-    4: ['Hobbit', 'Centaur'],
-  },
-  Wisdom: {
-    1: ['Dragon', 'Lich', 'Dwarf', 'Nymph', 'Imp'],
-    2: ['Gnome', 'Elf', 'Faerie', 'Ogre-magi', 'Halfling', 'Human', 'Drow-elf', 'Giant', 'Artrell'],
-    4: ['Kender', 'Centaur'],
-  },
+  Artrell: { Charisma: 5, Dexterity: 1, Wisdom: 2 },
+  Centaur: { Strength: 2, Constitution: 1, Dexterity: 2, Intelligence: 5, Wisdom: 5 },
+  Dragon: { Strength: 1, Charisma: 1, Constitution: 1, Dexterity: 1, Intelligence: 1, Wisdom: 1 },
+  'Drow-elf': { Strength: 2, Charisma: 5, Dexterity: 2, Intelligence: 2, Wisdom: 2 },
+  Dwarf: { Strength: 2, Wisdom: 1 },
+  Elf: { Intelligence: 1, Wisdom: 2 },
+  Faerie: { Strength: 5, Charisma: 2, Constitution: 5, Dexterity: 2, Intelligence: 2, Wisdom: 2 },
+  Giant: { Strength: 1, Charisma: 5, Constitution: 2, Wisdom: 2 },
+  Gnoll: { Strength: 2, Constitution: 2 },
+  Gnome: { Charisma: 5, Intelligence: 1, Wisdom: 2 },
+  Goblin: { Strength: 2, Dexterity: 2 },
+  'Half-elf': { Charisma: 2, Dexterity: 2 },
+  'Half-ogre': { Strength: 2, Intelligence: 2 },
+  'Half-orc': { Constitution: 2, Dexterity: 2 },
+  Halfling: { Charisma: 2, Constitution: 5, Dexterity: 1, Intelligence: 2, Wisdom: 2 },
+  Hobbit: { Charisma: 2, Dexterity: 1, Intelligence: 5 },
+  Human: { Charisma: 1, Wisdom: 2 },
+  Imp: { Strength: 5, Constitution: 5, Dexterity: 2, Intelligence: 1, Wisdom: 1 },
+  Kender: { Constitution: 1, Dexterity: 2, Intelligence: 2, Wisdom: 5 },
+  Kobold: { Strength: 2, Constitution: 2, Dexterity: 2 },
+  Lich: { Intelligence: 1, Wisdom: 1 },
+  Nymph: { Strength: 5, Charisma: 1, Constitution: 5, Dexterity: 2, Wisdom: 1 },
+  Ogre: { Strength: 2, Charisma: 5, Constitution: 1 },
+  'Ogre-magi': { Strength: 2, Charisma: 5, Constitution: 2, Dexterity: 4, Intelligence: 2, Wisdom: 2 },
+  Orc: { Strength: 2, Constitution: 2 },
+  Satyr: { Strength: 1, Charisma: 5, Dexterity: 2 },
+  Troll: { Strength: 1, Charisma: 5, Constitution: 2 },
+  'Were-wolf': { Strength: 1, Dexterity: 2 },
+};
+
+// Structured as classStats[Class][Stat] = tier (1-5).
+// Any stat not listed for a class falls back to CLASS_DEFAULT (tier 5) in getClassRank.
+// Transcribed directly from the developer-provided class_stats mapping.
+export const classStats = {
+  Cleric: { Strength: 2, Charisma: 2, Constitution: 4, Intelligence: 1, Wisdom: 2 },
+  Dragon: { Strength: 4, Charisma: 4, Constitution: 4, Dexterity: 4, Intelligence: 4, Wisdom: 4 },
+  Fighter: { Strength: 1, Constitution: 1, Dexterity: 2 },
+  Mage: { Charisma: 2, Dexterity: 4, Intelligence: 1, Wisdom: 1 },
+  Monk: { Strength: 2, Charisma: 3, Constitution: 2, Dexterity: 2, Intelligence: 2, Wisdom: 2 },
+  Rogue: { Strength: 2, Charisma: 1, Constitution: 3, Dexterity: 1 },
 };
 
 export const raceCfg = {
