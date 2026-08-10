@@ -5,836 +5,899 @@ export const skillNames = {
   Deception: ['acrobatics', 'bargaining', 'entertaining', 'locks', 'murder', 'stealing', 'stealth'],
 };
 
-function getBaseMultipliers(charClass) {
-  charClass = charClass.toLowerCase();
-  const multipliers = {
-    melee: 20,
-    attack: 20,
+/*
+|--------------------------------------------------------------------------
+| Base skill multipliers
+|--------------------------------------------------------------------------
+*/
+
+const BASE_SKILL_MULTIPLIERS = {
+  // Combat
+  attack: 20,
+  defense: 20,
+  charging: 0,
+  melee: 20,
+  'double wielding': 0,
+  'two handed': 0,
+  riding: 0,
+
+  // Weapons
+  axe: 0,
+  blade: 20,
+  blunt: 20,
+  knife: 20,
+  flail: 0,
+  projectile: 0,
+  ranged: 0,
+
+  // Magic / Nature
+  conjuring: 0,
+  faith: 0,
+  healing: 0,
+  'magic attack': 0,
+  'magic defense': 0,
+  nature: 0,
+  telepathy: 0,
+
+  // Deception
+  acrobatics: 0,
+  bargaining: 20,
+  entertaining: 0,
+  locks: 0,
+  murder: 0,
+  stealing: 0,
+  stealth: 0,
+};
+
+/*
+|--------------------------------------------------------------------------
+| Class skill multipliers
+|--------------------------------------------------------------------------
+*/
+
+export const classSkillMultipliers = {
+  Cleric: {
+    attack: 25,
     defense: 20,
-    'double wielding': 0,
-    knife: 20,
-    blunt: 20,
-    projectile: 0,
+    melee: 50,
+    'two handed': 10,
+    'double wielding': 20,
+
     blade: 20,
+    blunt: 80,
+    knife: 80,
+    projectile: 20,
+    axe: 60,
+    flail: 100,
+
+    conjuring: 30,
+    faith: 90,
+    'magic attack': 10,
+    'magic defense': 80,
+    healing: 100,
+  },
+
+  Fighter: {
+    attack: 100,
+    defense: 90,
+    melee: 100,
+    'two handed': 100,
+    'double wielding': 100,
+
+    blade: 90,
+    blunt: 75,
+    knife: 70,
+    projectile: 60,
+    axe: 90,
+    flail: 90,
+
+    stealing: 10,
+    locks: 5,
+    stealth: 10,
+  },
+
+  Mage: {
+    attack: 30,
+    defense: 60,
+    melee: 50,
+    'two handed': 15,
+    'double wielding': 15,
+
+    blade: 20,
+    blunt: 90,
+    knife: 50,
+    projectile: 53,
+    axe: 60,
+    flail: 100,
+
+    conjuring: 100,
+    'magic attack': 100,
+    'magic defense': 61,
+    telepathy: 20,
+    healing: 20,
+
+    locks: 15,
+  },
+
+  Monk: {
+    attack: 70,
+    defense: 100,
+    melee: 100,
+
+    blade: 5,
+    blunt: 95,
+    knife: 30,
+    projectile: 100,
+    axe: 60,
+    flail: 100,
+
+    conjuring: 15,
+    faith: 100,
+    'magic attack': 25,
+    'magic defense': 100,
+    healing: 37,
+  },
+
+  Rogue: {
+    attack: 100,
+    defense: 100,
+    melee: 100,
+    'two handed': 10,
+    'double wielding': 80,
+
+    blade: 40,
+    blunt: 100,
+    knife: 100,
+    projectile: 100,
+    axe: 70,
+    flail: 60,
+
+    murder: 100,
+    stealing: 100,
+    locks: 100,
+    stealth: 100,
+  },
+
+  Dragon: {
+    bargaining: 63,
+  },
+};
+
+/*
+|--------------------------------------------------------------------------
+| Subclass skill multipliers
+|--------------------------------------------------------------------------
+*/
+
+export const subclassSkillMultipliers = {
+  White: {
+    healing: 110,
+  },
+
+  Grey: {
+    faith: 95,
+    'magic attack': 15,
+    murder: 20,
+  },
+
+  Black: {
+    'magic attack': 30,
+    healing: 90,
+    murder: 30,
+  },
+
+  Berserker: {
+    melee: 110,
+    'two handed': 95,
+
+    blade: 95,
+    blunt: 90,
+    knife: 90,
+    projectile: 90,
+
+    stealth: 0,
+  },
+
+  Mercenary: {
+    attack: 120,
+    defense: 120,
+    melee: 120,
+    'two handed': 120,
+    'double wielding': 120,
+
+    axe: 120,
+    blade: 120,
+    blunt: 120,
+    knife: 120,
+    flail: 120,
+    projectile: 120,
     ranged: 0,
-    'two handed': 0,
-    murder: 0,
+
     stealing: 0,
     locks: 0,
-    'magic defense': 0,
-    'magic attack': 0,
-    healing: 0,
-    faith: 0,
-    conjuring: 0,
-  };
-  switch (charClass) {
-    case 'fighter':
-      multipliers['melee'] = 100;
-      multipliers['attack'] = 100;
-      multipliers['defense'] = 90;
-      multipliers['double wielding'] = 100;
-      multipliers['knife'] = 70;
-      multipliers['blunt'] = 75;
-      multipliers['projectile'] = 60;
-      multipliers['blade'] = 90;
-      multipliers['two handed'] = 100;
-      multipliers['murder'] = 0;
-      multipliers['stealing'] = 10;
-      multipliers['locks'] = 5;
-      multipliers['stealth'] = 10;
-      multipliers['magic defense'] = 0;
-      multipliers['magic attack'] = 0;
-      multipliers['healing'] = 0;
-      multipliers['faith'] = 0;
-      multipliers['conjuring'] = 0;
-      break;
-    case 'rogue':
-      multipliers['melee'] = 100;
-      multipliers['attack'] = 100;
-      multipliers['defense'] = 100;
-      multipliers['double wielding'] = 75;
-      multipliers['knife'] = 100;
-      multipliers['blunt'] = 100;
-      multipliers['projectile'] = 100;
-      multipliers['blade'] = 40;
-      multipliers['two handed'] = 10;
-      multipliers['murder'] = 100;
-      multipliers['stealth'] = 100;
-      multipliers['stealing'] = 100;
-      multipliers['locks'] = 100;
-      multipliers['magic defense'] = 0;
-      multipliers['magic attack'] = 0;
-      multipliers['healing'] = 0;
-      multipliers['faith'] = 0;
-      multipliers['conjuring'] = 0;
-      break;
-    case 'mage':
-      multipliers['melee'] = 50;
-      multipliers['attack'] = 30;
-      multipliers['defense'] = 60;
-      multipliers['double wielding'] = 10;
-      multipliers['knife'] = 50;
-      multipliers['blunt'] = 90;
-      multipliers['projectile'] = 53;
-      multipliers['blade'] = 20;
-      multipliers['two handed'] = 17;
-      multipliers['murder'] = 0;
-      multipliers['stealing'] = 0;
-      multipliers['locks'] = 28;
-      multipliers['magic defense'] = 61;
-      multipliers['magic attack'] = 100;
-      multipliers['healing'] = 20;
-      multipliers['faith'] = 0;
-      multipliers['conjuring'] = 100;
-      break;
-    case 'monk':
-      multipliers['melee'] = 100;
-      multipliers['attack'] = 70;
-      multipliers['defense'] = 100;
-      multipliers['double wielding'] = 0;
-      multipliers['knife'] = 30;
-      multipliers['blunt'] = 95;
-      multipliers['projectile'] = 100;
-      multipliers['blade'] = 3;
-      multipliers['two handed'] = 0;
-      multipliers['murder'] = 0;
-      multipliers['stealing'] = 0;
-      multipliers['locks'] = 0;
-      multipliers['magic defense'] = 100;
-      multipliers['magic attack'] = 25;
-      multipliers['healing'] = 37;
-      multipliers['faith'] = 100;
-      multipliers['conjuring'] = 15;
-      break;
-    case 'cleric':
-      multipliers['melee'] = 50;
-      multipliers['attack'] = 10;
-      multipliers['defense'] = 20;
-      multipliers['double wielding'] = 1;
-      multipliers['knife'] = 90;
-      multipliers['blunt'] = 70;
-      multipliers['projectile'] = 20;
-      multipliers['blade'] = 15;
-      multipliers['two handed'] = 1;
-      multipliers['murder'] = 0;
-      multipliers['stealing'] = 0;
-      multipliers['locks'] = 0;
-      multipliers['magic defense'] = 80;
-      multipliers['magic attack'] = 7;
-      multipliers['healing'] = 100;
-      multipliers['faith'] = 90;
-      multipliers['conjuring'] = 30;
-      break;
-    default:
-      break;
-  }
-  return multipliers;
-}
+    stealth: 0,
 
-function trainingFormula(charClass, skill, lvl) {
-  charClass = charClass.toLowerCase();
-  if (charClass === 'dragon') {
-    switch (skill) {
-      case 'attack':
-      case 'defense':
-      case 'melee':
-      case 'charging':
-      case 'stealth':
-      case 'entertianing':
-      case 'acrobatics':
-      case 'conjuring':
-      case 'faith':
-      case 'healing':
-      case 'magic attack':
-      case 'magic defense':
-      case 'telepathy':
-      case 'nature':
-      case 'bargaining':
-      case 'stealing':
-      case 'murder':
-      case 'entertaining':
-        return lvl * lvl * 3;
-      default:
-        return lvl * lvl * lvl * lvl;
-    }
-  } else if (charClass === 'fighter') {
-    switch (skill) {
-      case 'axe':
-      case 'flail':
-      case 'melee':
-      case 'attack':
-      case 'defense':
-      case 'double wielding':
-      case 'charging':
-      case 'riding':
-      case 'two handed':
-      case 'blade':
-      case 'knife':
-      case 'blunt':
-      case 'projectile':
-      case 'ranged':
-      case 'blocking':
-        return lvl * lvl;
-      case 'magic attack':
-      case 'nature':
-      case 'healing':
-      case 'faith':
-        return lvl * lvl * 5;
-      case 'stealing':
-      case 'bargaining':
-      case 'murder':
-        return lvl * lvl * lvl;
-      default:
-        return lvl * lvl * lvl * lvl;
-    }
-  } else if (charClass === 'cleric') {
-    switch (skill) {
-      case 'magic defense':
-      case 'healing':
-      case 'faith':
-      case 'flail':
-      case 'blunt':
-      case 'bargaining':
-        return lvl * lvl;
-      case 'knife':
-      case 'murder':
-      case 'projectile':
-        return lvl * lvl * Math.floor(lvl / 2);
-      case 'axe':
-      case 'melee':
-      case 'defense':
-      case 'conjuring':
-      case 'magic attack':
-        return lvl * lvl * lvl;
-      default:
-        return lvl * lvl * lvl * lvl;
-    }
-  } else if (charClass === 'mage') {
-    switch (skill) {
-      case 'magic attack':
-      case 'magic defense':
-      case 'conjuring':
-      case 'blunt':
-      case 'flail':
-      case 'telepathy':
-      case 'nature':
-        return lvl * lvl;
-      case 'projectile':
-      case 'melee':
-      case 'attack':
-      case 'knife':
-      case 'axe':
-      case 'bargaining':
-        return lvl * lvl * lvl;
-      case 'healing':
-        return lvl * lvl * 5;
-      case 'defense':
-        return lvl * lvl * Math.floor(lvl / 10) * Math.floor(lvl / 20);
-      case 'faith':
-        return lvl * lvl * lvl * Math.floor(lvl / 5);
-      default:
-        return lvl * lvl * lvl * lvl;
-    }
-  } else if (charClass === 'monk') {
-    switch (skill) {
-      case 'melee':
-      case 'defense':
-      case 'blunt':
-      case 'projectile':
-      case 'attack':
-      case 'flail':
-      case 'bargaining':
-      case 'magic defense':
-      case 'faith':
-        return lvl * lvl;
-      case 'magic attack':
-      case 'axe':
-        return Math.floor((lvl * lvl * lvl) / 2);
-      case 'healing':
-      case 'nature':
-        return lvl * lvl * 5;
-      case 'knife':
-      case 'conjuring':
-        return lvl * lvl * lvl;
-      default:
-        return lvl * lvl * lvl * lvl;
-    }
-  } else {
-    switch (skill) {
-      case 'stealth':
-      case 'melee':
-      case 'attack':
-      case 'defense':
-      case 'knife':
-      case 'bargaining':
-      case 'murder':
-      case 'stealing':
-      case 'locks':
-      case 'entertaining':
-      case 'blunt':
-      case 'double wielding':
-        return lvl * lvl;
-      case 'flail':
-      case 'axe':
-      case 'nature':
-      case 'telepathy':
-      case 'acrobatics':
-      case 'blade':
-      case 'projectile':
-        return lvl * lvl * lvl;
-      default:
-        return lvl * lvl * lvl * lvl;
-    }
-  }
-}
-
-export function getSkillMultipliers(charClass, subclass, race, warriorSpecializations = null) {
-  charClass = charClass.toLowerCase();
-  subclass = subclass.toLowerCase();
-  race = race.toLowerCase();
-
-  subclass = subclass + (subclass === 'healer' ? charClass : '');
-  const horseSkill = race === 'centaur' || race === 'satyr' ? 'charging' : 'riding';
-  var multipliers = {
-    // Combat
-    attack: 20,
-    defense: 20,
-    melee: 20,
-    'two handed': 0,
-    'double wielding': 0,
-    riding: 0,
-    charging: 0,
-    // Weapons
-    axe: 0,
-    blade: 0,
-    blunt: 0,
-    knife: 0,
-    flail: 0,
-    projectile: 0,
-    ranged: 0,
-    // Magic/Nature
-    conjuring: 0,
     faith: 0,
     'magic attack': 0,
-    'magic defense': 0,
-    telepathy: 0,
     healing: 0,
     nature: 0,
-    // Deception
-    acrobatics: 0,
-    entertaining: 0,
-    locks: 0,
-    murder: 0,
+  },
+
+  Paladin: {
+    defense: 100,
+
+    blade: 90,
+    blunt: 110,
+    knife: 70,
+
     stealing: 0,
-    stealth: 0,
+
+    faith: 45,
+    'magic attack': 50,
+    healing: 50,
+  },
+
+  Antipaladin: {
+    defense: 100,
+
+    blade: 90,
+    blunt: 110,
+    knife: 70,
+
+    stealing: 0,
+
+    faith: 45,
+    'magic attack': 50,
+    healing: 50,
+  },
+
+  Ranger: {
+    defense: 100,
+
+    axe: 110,
+    blade: 90,
+    ranged: 95,
+
+    stealth: 20,
+
+    nature: 55,
+  },
+
+  Warrior: {
+    attack: 100,
+    'two handed': 95,
+    defense: 110,
+
+    axe: 95,
+    blade: 95,
+    blunt: 95,
+    knife: 95,
+    flail: 95,
+    projectile: 95,
+  },
+
+  Druid: {
+    telepathy: 20,
+    faith: 21,
+    'magic defense': 80,
+    nature: 105,
+  },
+
+  HealerMage: {
+    faith: 21,
+    'magic attack': 92,
+    'magic defense': 110,
+    telepathy: 10,
+    healing: 52,
+    nature: 33,
+  },
+
+  Necromancer: {
+    telepathy: 63,
+    murder: 20,
+  },
+
+  Warlock: {
+    telepathy: 63,
+  },
+
+  Wizard: {
+    telepathy: 42,
+    nature: 21,
+  },
+
+  Sorcerer: {
+    'magic attack': 108,
+    telepathy: 103,
+  },
+
+  Illusionist: {
+    attack: 50,
+    'two handed': 30,
+    'double wielding': 30,
+
+    'magic attack': 110,
+    'magic defense': 35,
+    telepathy: 80,
+
     bargaining: 20,
+  },
+
+  Priest: {
+    nature: 50,
+  },
+
+  HealerMonk: {
+    faith: 90,
+    healing: 76,
+    nature: 33,
+  },
+
+  Scholar: {
+    conjuring: 25,
+    nature: 50,
+  },
+
+  Shaman: {
+    'magic attack': 50,
+    conjuring: 20,
+    faith: 110,
+    healing: 30,
+    nature: 50,
+  },
+
+  Bard: {
+    acrobatics: 30,
+    entertaining: 90,
+    nature: 40,
+
+    locks: 60,
+    murder: 90,
+    stealing: 60,
+    stealth: 60,
+  },
+
+  Ninja: {
+    attack: 110,
+    telepathy: 40,
+    acrobatics: 60,
+
+    locks: 60,
+    stealing: 30,
+    stealth: 80,
+  },
+
+  Assassin: {
+    attack: 110,
+    telepathy: 40,
+    acrobatics: 60,
+
+    locks: 60,
+    stealing: 30,
+    stealth: 80,
+  },
+
+  Thief: {
+    attack: 105,
+    acrobatics: 65,
+
+    locks: 105,
+    murder: 80,
+    stealing: 105,
+    stealth: 100,
+    bargaining: 40,
+  },
+
+  Air: {
+    attack: 105,
+    defense: 126,
+    melee: 126,
+    charging: 105,
+
+    conjuring: 105,
+    faith: 147,
+    'magic attack': 126,
+    'magic defense': 147,
+    telepathy: 126,
+    healing: 84,
+    acrobatics: 105,
+    entertaining: 63,
+    nature: 126,
+
+    locks: 21,
+    stealing: 21,
+    stealth: 126,
+  },
+
+  Bone: {
+    attack: 100,
+    defense: 84,
+    melee: 110,
+    charging: 126,
+
+    conjuring: 110,
+    faith: 136,
+    'magic attack': 130,
+    'magic defense': 130,
+    telepathy: 126,
+    healing: 120,
+    acrobatics: 63,
+    entertaining: 25,
+    nature: 126,
+
+    locks: 21,
+    stealing: 21,
+    stealth: 84,
+    murder: 147,
+  },
+
+  Earth: {
+    attack: 147,
+    defense: 147,
+    melee: 147,
+    charging: 126,
+
+    conjuring: 105,
+    faith: 84,
+    'magic attack': 105,
+    'magic defense': 105,
+    telepathy: 105,
+    healing: 84,
+    acrobatics: 63,
+    entertaining: 63,
+    nature: 126,
+
+    locks: 21,
+    stealing: 21,
+    stealth: 105,
+  },
+
+  Fire: {
+    attack: 147,
+    defense: 126,
+    melee: 126,
+    charging: 84,
+
+    conjuring: 105,
+    faith: 84,
+    'magic attack': 126,
+    'magic defense': 126,
+    telepathy: 105,
+    healing: 84,
+    acrobatics: 105,
+    entertaining: 105,
+    nature: 105,
+
+    locks: 21,
+    murder: 147,
+    stealing: 126,
+    stealth: 84,
+  },
+
+  Ice: {
+    attack: 100,
+    defense: 84,
+    melee: 105,
+    charging: 126,
+
+    conjuring: 126,
+    faith: 84,
+    acrobatics: 63,
+    entertaining: 84,
+    'magic attack': 147,
+    'magic defense': 147,
+    telepathy: 126,
+    healing: 84,
+    nature: 126,
+
+    locks: 21,
+    stealing: 21,
+    stealth: 84,
+  },
+
+  Water: {
+    attack: 105,
+    defense: 105,
+    melee: 105,
+    charging: 84,
+
+    conjuring: 126,
+    faith: 126,
+    'magic attack': 105,
+    'magic defense': 147,
+    telepathy: 126,
+    healing: 147,
+    acrobatics: 63,
+    entertaining: 84,
+    nature: 126,
+
+    locks: 21,
+    stealing: 21,
+    stealth: 84,
+  },
+};
+
+/*
+|--------------------------------------------------------------------------
+| Skill training tiers
+|--------------------------------------------------------------------------
+*/
+
+export const classSkillTiers = {
+  Dragon: {
+    default: 5,
+
+    attack: 2,
+    defense: 2,
+    melee: 2,
+    charging: 2,
+    stealth: 2,
+    acrobatics: 2,
+    conjuring: 2,
+    faith: 2,
+    healing: 2,
+    'magic attack': 2,
+    'magic defense': 2,
+    telepathy: 2,
+    nature: 2,
+    bargaining: 2,
+    stealing: 2,
+    murder: 2,
+    entertaining: 2,
+  },
+
+  Fighter: {
+    default: 5,
+
+    melee: 1,
+    attack: 1,
+    defense: 1,
+    blade: 1,
+    blunt: 1,
+    knife: 1,
+    projectile: 1,
+    axe: 1,
+    flail: 1,
+    'two handed': 1,
+    'double wielding': 1,
+    ranged: 1,
+    charging: 1,
+    riding: 1,
+
+    faith: 2,
+
+    nature: 3,
+    'magic attack': 3,
+    healing: 3,
+
+    stealth: 4,
+    locks: 4,
+    bargaining: 4,
+    stealing: 4,
+  },
+
+  Cleric: {
+    default: 5,
+
+    blunt: 1,
+    flail: 1,
+    healing: 1,
+    faith: 1,
+    'magic defense': 1,
+    bargaining: 1,
+
+    'magic attack': 2,
+    conjuring: 2,
+
+    melee: 3,
+    knife: 3,
+    murder: 3,
+    projectile: 3,
+
+    attack: 4,
+    defense: 4,
+    blade: 4,
+    axe: 4,
+    'double wielding': 4,
+    'two handed': 4,
+  },
+
+  Mage: {
+    default: 5,
+
+    'magic attack': 1,
+    'magic defense': 1,
+    conjuring: 1,
+    nature: 1,
+    telepathy: 1,
+    blunt: 1,
+    flail: 1,
+
+    healing: 2,
+
+    melee: 3,
+    axe: 3,
+    knife: 3,
+    projectile: 3,
+
+    attack: 4,
+    defense: 4,
+    'two handed': 4,
+    faith: 4,
+    'double wielding': 4,
+    blade: 4,
+    locks: 4,
+    bargaining: 4,
+
+    murder: 5,
+  },
+
+  Monk: {
+    default: 5,
+
+    melee: 1,
+    attack: 1,
+    defense: 1,
+    blunt: 1,
+    projectile: 1,
+    flail: 1,
+    bargaining: 1,
+    'magic defense': 1,
+    faith: 1,
+
+    axe: 2,
+    nature: 2,
+    healing: 2,
+
+    knife: 3,
+    'magic attack': 3,
+
+    blade: 4,
+    conjuring: 4,
+  },
+
+  Child: {
+    default: 4,
+  },
+
+  Default: {
+    default: 5,
+
+    stealth: 1,
+    melee: 1,
+    attack: 1,
+    defense: 1,
+    knife: 1,
+    bargaining: 1,
+    murder: 1,
+    stealing: 1,
+    locks: 1,
+    entertaining: 1,
+    blunt: 1,
+    'double wielding': 1,
+
+    'two handed': 4,
+    axe: 4,
+    blade: 4,
+    flail: 4,
+    projectile: 4,
+    acrobatics: 4,
+    nature: 4,
+    telepathy: 4,
+  },
+};
+
+/*
+|--------------------------------------------------------------------------
+| Utility helpers
+|--------------------------------------------------------------------------
+*/
+
+function findCaseInsensitiveKey(object, value) {
+  if (!value) {
+    return null;
+  }
+
+  const normalizedValue = String(value).toLowerCase();
+
+  return Object.keys(object).find((key) => key.toLowerCase() === normalizedValue) || null;
+}
+
+function getMountedSkill(race) {
+  const normalizedRace = String(race || '').toLowerCase();
+
+  return normalizedRace === 'centaur' || normalizedRace === 'satyr' ? 'charging' : 'riding';
+}
+
+/*
+|--------------------------------------------------------------------------
+| Skill cost functions
+|--------------------------------------------------------------------------
+*/
+
+export function calculateCostByTier(level, tier) {
+  level = parseInt(level) || 0;
+  tier = parseInt(tier) || 5;
+
+  const base = level * level;
+
+  switch (tier) {
+    case 1:
+      return base;
+
+    case 2:
+      return base * 3;
+
+    case 3:
+      return base * 9;
+
+    case 4:
+      return base * 27;
+
+    default:
+      return base * 81;
+  }
+}
+
+export function getSkillTier(charClass, skill) {
+  const classKey = findCaseInsensitiveKey(classSkillTiers, charClass);
+
+  const rules = classKey && classKey !== 'Default' ? classSkillTiers[classKey] : classSkillTiers.Default;
+
+  return rules[skill] ?? rules.default ?? 5;
+}
+
+function trainingFormula(charClass, level, skill) {
+  return calculateCostByTier(level, getSkillTier(charClass, skill));
+}
+
+/*
+|--------------------------------------------------------------------------
+| Warrior specializations
+|--------------------------------------------------------------------------
+*/
+
+const WARRIOR_SPECIALIZABLE_SKILLS = ['attack', 'two handed', 'axe', 'blade', 'blunt', 'knife', 'flail', 'projectile'];
+
+function applyWarriorSpecializations(multipliers, warriorSpecializations) {
+  if (!warriorSpecializations) {
+    return;
+  }
+
+  const { newbie, elite, legend } = warriorSpecializations;
+
+  if (newbie && WARRIOR_SPECIALIZABLE_SKILLS.includes(newbie)) {
+    multipliers[newbie] = 110;
+  }
+
+  if (elite && WARRIOR_SPECIALIZABLE_SKILLS.includes(elite)) {
+    multipliers[elite] = 110;
+  }
+
+  if (legend && WARRIOR_SPECIALIZABLE_SKILLS.includes(legend)) {
+    multipliers[legend] = 125;
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Public skill multiplier function
+|--------------------------------------------------------------------------
+*/
+
+export function getSkillMultipliers(charClass, subclass, race, warriorSpecializations = null) {
+  /*
+   * Start with universal defaults.
+   */
+  const multipliers = {
+    ...BASE_SKILL_MULTIPLIERS,
   };
 
-  switch (charClass) {
-    case 'cleric':
-      // Combat
-      multipliers['attack'] = 25;
-      multipliers['defense'] = 20;
-      multipliers['melee'] = 50;
-      multipliers['two handed'] = 10;
-      multipliers['double wielding'] = 20;
-      // Weapons
-      multipliers['blade'] = 20;
-      multipliers['blunt'] = 80;
-      multipliers['knife'] = 80;
-      multipliers['projectile'] = 20;
-      multipliers['axe'] = 60;
-      multipliers['flail'] = 100;
-      // Magic/Nature
-      multipliers['conjuring'] = 30;
-      multipliers['faith'] = 90;
-      multipliers['magic attack'] = 10;
-      multipliers['magic defense'] = 80;
-      multipliers['healing'] = 100;
-      break;
-    case 'fighter':
-      // Combat
-      multipliers['attack'] = 100;
-      multipliers['defense'] = 90;
-      multipliers['melee'] = 100;
-      multipliers['two handed'] = 100;
-      multipliers['double wielding'] = 100;
-      // Weapons
-      multipliers['blade'] = 90;
-      multipliers['blunt'] = 75;
-      multipliers['knife'] = 70;
-      multipliers['projectile'] = 60;
-      multipliers['axe'] = 90;
-      multipliers['flail'] = 90;
-      // Deception
-      multipliers['stealing'] = 10;
-      multipliers['locks'] = 5;
-      multipliers['stealth'] = 10;
-      break;
-    case 'mage':
-      // Combat
-      multipliers['attack'] = 30;
-      multipliers['defense'] = 60;
-      multipliers['melee'] = 50;
-      multipliers['two handed'] = 15;
-      multipliers['double wielding'] = 15;
-      // Weapons
-      multipliers['blade'] = 20;
-      multipliers['blunt'] = 90;
-      multipliers['knife'] = 50;
-      multipliers['projectile'] = 53;
-      multipliers['axe'] = 60;
-      multipliers['flail'] = 100;
-      // Magic/Nature
-      multipliers['conjuring'] = 100;
-      multipliers['magic attack'] = 100;
-      multipliers['magic defense'] = 61;
-      multipliers['telepathy'] = 20;
-      multipliers['healing'] = 20;
-      // Deception
-      multipliers['locks'] = 15;
-      break;
-    case 'monk':
-      // Combat
-      multipliers['attack'] = 70;
-      multipliers['defense'] = 100;
-      multipliers['melee'] = 100;
-      // Weapons
-      multipliers['blade'] = 5;
-      multipliers['blunt'] = 95;
-      multipliers['knife'] = 30;
-      multipliers['projectile'] = 100;
-      multipliers['axe'] = 60;
-      multipliers['flail'] = 100;
-      // Magic/Nature
-      multipliers['conjuring'] = 15;
-      multipliers['faith'] = 100;
-      multipliers['magic attack'] = 25;
-      multipliers['magic defense'] = 100;
-      multipliers['healing'] = 37;
-      break;
-    case 'rogue':
-      // Combat
-      multipliers['attack'] = 100;
-      multipliers['defense'] = 100;
-      multipliers['melee'] = 100;
-      multipliers['two handed'] = 10;
-      multipliers['double wielding'] = 80;
-      // Weapons
-      multipliers['blade'] = 40;
-      multipliers['blunt'] = 100;
-      multipliers['knife'] = 100;
-      multipliers['projectile'] = 100;
-      multipliers['axe'] = 70;
-      multipliers['flail'] = 60;
-      // Deception
-      multipliers['murder'] = 100;
-      multipliers['stealing'] = 100;
-      multipliers['locks'] = 100;
-      multipliers['stealth'] = 100;
-      break;
-    case 'dragon':
-      // Deception
-      multipliers['bargaining'] = 63;
-      break;
-    default:
-      // Weapons
-      multipliers['blade'] = 20;
-      multipliers['blunt'] = 20;
-      multipliers['knife'] = 20;
-      break;
+  /*
+   * Apply class multipliers.
+   */
+  const classKey = findCaseInsensitiveKey(classSkillMultipliers, charClass);
+
+  if (classKey) {
+    Object.assign(multipliers, classSkillMultipliers[classKey]);
   }
 
-  switch (subclass) {
-    case 'white':
-      // Magic/Nature
-      multipliers['healing'] = 110;
-      break;
-    case 'grey':
-      // Magic/Nature
-      multipliers['faith'] = 95;
-      multipliers['magic attack'] = 15;
-      // Deception
-      multipliers['murder'] = 20;
-      break;
-    case 'black':
-      // Magic/Nature
-      multipliers['magic attack'] = 30;
-      multipliers['healing'] = 90;
-      // Deception
-      multipliers['murder'] = 30;
-      break;
+  /*
+   * Existing special handling for Healer subclasses:
+   *
+   * Mage + Healer => HealerMage
+   * Monk + Healer => HealerMonk
+   */
+  let resolvedSubclass = subclass;
+
+  if (String(subclass || '').toLowerCase() === 'healer') {
+    resolvedSubclass = `Healer${charClass}`;
+  }
+
+  /*
+   * Apply subclass multipliers.
+   */
+  const subclassKey = findCaseInsensitiveKey(subclassSkillMultipliers, resolvedSubclass);
+
+  if (subclassKey) {
+    Object.assign(multipliers, subclassSkillMultipliers[subclassKey]);
+  }
+
+  /*
+   * Some subclasses use either riding or charging depending on race.
+   *
+   * Centaur / Satyr => charging
+   * Everyone else   => riding
+   */
+  const mountedSkill = getMountedSkill(race);
+
+  const normalizedSubclass = String(subclass || '').toLowerCase();
+
+  switch (normalizedSubclass) {
     case 'berserker':
-      // Combat
-      multipliers['melee'] = 110;
-      multipliers['two handed'] = 95;
-      multipliers[horseSkill] = 80;
-      // Weapons
-      multipliers['blade'] = 95;
-      multipliers['blunt'] = 90;
-      multipliers['knife'] = 90;
-      multipliers['projectile'] = 90;
-      // Deception
-      multipliers['stealth'] = 0;
+      multipliers[mountedSkill] = 80;
       break;
+
     case 'mercenary':
-      // Combat
-      multipliers['attack'] = 120;
-      multipliers['defense'] = 120;
-      multipliers['melee'] = 120;
-      multipliers['two handed'] = 120;
-      multipliers['double wielding'] = 120;
-      multipliers[horseSkill] = 120;
-      // Weapons
-      multipliers['axe'] = 120;
-      multipliers['blade'] = 120;
-      multipliers['blunt'] = 120;
-      multipliers['knife'] = 120;
-      multipliers['flail'] = 120;
-      multipliers['projectile'] = 120;
-      multipliers['ranged'] = 0;
-      // Deception
-      multipliers['stealing'] = 0;
-      multipliers['locks'] = 0;
-      multipliers['stealth'] = 0;
-      // Magic/Nature
-      multipliers['faith'] = 0;
-      multipliers['magic attack'] = 0;
-      multipliers['healing'] = 0;
-      multipliers['nature'] = 0;
+      multipliers[mountedSkill] = 120;
       break;
+
     case 'paladin':
     case 'antipaladin':
-      // Combat
-      multipliers['defense'] = 100;
-      multipliers[horseSkill] = 100;
-      // Weapons
-      multipliers['blade'] = 90;
-      multipliers['blunt'] = 110;
-      multipliers['knife'] = 70;
-      // Deception
-      multipliers['stealing'] = 0;
-      // Magic/Nature
-      multipliers['faith'] = 45;
-      multipliers['magic attack'] = 50;
-      multipliers['healing'] = 50;
-      break;
     case 'ranger':
-      // Combat
-      multipliers['defense'] = 100;
-      multipliers[horseSkill] = 100;
-      // Weapons
-      multipliers['axe'] = 110;
-      multipliers['blade'] = 90;
-      multipliers['ranged'] = 95;
-      // Deception
-      multipliers['stealth'] = 20;
-      // Magic/Nature
-      multipliers['nature'] = 55;
-      break;
     case 'warrior':
-      multipliers['attack'] = 100;
-      multipliers['two handed'] = 95;
-      multipliers['defense'] = 110;
-      multipliers[horseSkill] = 100;
-      multipliers['axe'] = 95;
-      multipliers['blade'] = 95;
-      multipliers['blunt'] = 95;
-      multipliers['knife'] = 95;
-      multipliers['flail'] = 95;
-      multipliers['projectile'] = 95;
+      multipliers[mountedSkill] = 100;
+      break;
 
-      // Apply warrior specializations
-      if (warriorSpecializations) {
-        const specializableSkills = ['attack', 'two handed', 'axe', 'blade', 'blunt', 'knife', 'flail', 'projectile'];
-
-        // Apply newbie specialization (110 multiplier)
-        if (warriorSpecializations.newbie && specializableSkills.includes(warriorSpecializations.newbie)) {
-          multipliers[warriorSpecializations.newbie] = 110;
-        }
-
-        // Apply elite specialization (110 multiplier)
-        if (warriorSpecializations.elite && specializableSkills.includes(warriorSpecializations.elite)) {
-          multipliers[warriorSpecializations.elite] = 110;
-        }
-
-        // Apply legend specialization (125 multiplier, overwrites previous specialization)
-        if (warriorSpecializations.legend && specializableSkills.includes(warriorSpecializations.legend)) {
-          multipliers[warriorSpecializations.legend] = 125;
-        }
-      }
-      break;
-    case 'druid':
-      // Magic/Nature
-      multipliers['telepathy'] = 20;
-      multipliers['faith'] = 21;
-      multipliers['magic defense'] = 80;
-      multipliers['nature'] = 105;
-      break;
-    case 'healermage':
-      // Magic/Nature
-      multipliers['faith'] = 21;
-      multipliers['magic attack'] = 92;
-      multipliers['magic defense'] = 110;
-      multipliers['telepathy'] = 10;
-      multipliers['healing'] = 52;
-      multipliers['nature'] = 33;
-      break;
-    case 'necromancer':
-      // Magic/Nature
-      multipliers['telepathy'] = 63;
-      // Deception
-      multipliers['murder'] = 20;
-      break;
-    case 'warlock':
-      // Magic/Nature
-      multipliers['telepathy'] = 63;
-      break;
-    case 'wizard':
-      // Magic/Nature
-      multipliers['telepathy'] = 42;
-      multipliers['nature'] = 21;
-      break;
-    case 'sorcerer':
-      // Magic/Nature
-      multipliers['magic attack'] = 108;
-      multipliers['telepathy'] = 103;
-      break;
-    case 'illusionist':
-      // Combat
-      multipliers['attack'] = 50;
-      multipliers['two handed'] = 30;
-      multipliers['double wielding'] = 30;
-      // Magic/Nature
-      multipliers['magic attack'] = 110;
-      multipliers['magic defense'] = 35;
-      multipliers['telepathy'] = 80;
-      // Deception
-      multipliers['bargaining'] = 20;
-      break;
-    case 'priest':
-      // Magic/Nature
-      multipliers['nature'] = 50;
-      break;
-    case 'healermonk':
-      // Magic/Nature
-      multipliers['faith'] = 90;
-      multipliers['healing'] = 76;
-      multipliers['nature'] = 33;
-      break;
-    case 'scholar':
-      // Magic/Nature
-      multipliers['conjuring'] = 25;
-      multipliers['nature'] = 50;
-      break;
-    case 'shaman':
-      // Magic/Nature
-      multipliers['magic attack'] = 50;
-      multipliers['conjuring'] = 20;
-      multipliers['faith'] = 110;
-      multipliers['healing'] = 30;
-      multipliers['nature'] = 50;
-      break;
-    case 'bard':
-      // Combat
-      // Magic/Nature
-      multipliers['acrobatics'] = 30;
-      multipliers['entertaining'] = 90;
-      multipliers['nature'] = 40;
-      // Deception
-      multipliers['locks'] = 60;
-      multipliers['murder'] = 90;
-      multipliers['stealing'] = 60;
-      multipliers['stealth'] = 60;
-      break;
-    case 'ninja':
-    case 'assassin':
-      // Combat
-      multipliers['attack'] = 110;
-      // Magic/Nature
-      multipliers['telepathy'] = 40;
-      multipliers['acrobatics'] = 60;
-      // Deception
-      multipliers['locks'] = 60;
-      multipliers['stealing'] = 30;
-      multipliers['stealth'] = 80;
-      break;
-    case 'thief':
-      // Combat
-      multipliers['attack'] = 105;
-      // Magic/Nature
-      multipliers['acrobatics'] = 65;
-      // Deception
-      multipliers['locks'] = 105;
-      multipliers['murder'] = 80;
-      multipliers['stealing'] = 105;
-      multipliers['stealth'] = 100;
-      multipliers['bargaining'] = 40;
-      break;
-    case 'air':
-      // Combat
-      multipliers['attack'] = 105;
-      multipliers['defense'] = 126;
-      multipliers['melee'] = 126;
-      multipliers['charging'] = 105;
-      // Magic/Nature
-      multipliers['conjuring'] = 105;
-      multipliers['faith'] = 147;
-      multipliers['magic attack'] = 126;
-      multipliers['magic defense'] = 147;
-      multipliers['telepathy'] = 126;
-      multipliers['healing'] = 84;
-      multipliers['acrobatics'] = 105;
-      multipliers['entertaining'] = 63;
-      multipliers['nature'] = 126;
-      // Deception
-      multipliers['locks'] = 21;
-      multipliers['stealing'] = 21;
-      multipliers['stealth'] = 126;
-      break;
-    case 'bone':
-      // Combat
-      multipliers['attack'] = 100;
-      multipliers['defense'] = 84;
-      multipliers['melee'] = 110;
-      multipliers['charging'] = 126;
-      // Magic/Nature
-      multipliers['conjuring'] = 110;
-      multipliers['faith'] = 136;
-      multipliers['magic attack'] = 130;
-      multipliers['magic defense'] = 130;
-      multipliers['telepathy'] = 126;
-      multipliers['healing'] = 120;
-      multipliers['acrobatics'] = 63;
-      multipliers['entertaining'] = 25;
-      multipliers['nature'] = 126;
-      // Deception
-      multipliers['locks'] = 21;
-      multipliers['stealing'] = 21;
-      multipliers['stealth'] = 84;
-      multipliers['murder'] = 147;
-      break;
-    case 'earth':
-      // Combat
-      multipliers['attack'] = 147;
-      multipliers['defense'] = 147;
-      multipliers['melee'] = 147;
-      multipliers['charging'] = 126;
-      // Magic/Nature
-      multipliers['conjuring'] = 105;
-      multipliers['faith'] = 84;
-      multipliers['magic attack'] = 105;
-      multipliers['magic defense'] = 105;
-      multipliers['telepathy'] = 105;
-      multipliers['healing'] = 84;
-      multipliers['acrobatics'] = 63;
-      multipliers['entertaining'] = 63;
-      multipliers['nature'] = 126;
-      // Deception
-      multipliers['locks'] = 21;
-      multipliers['stealing'] = 21;
-      multipliers['stealth'] = 105;
-      break;
-    case 'fire':
-      // Combat
-      multipliers['attack'] = 147;
-      multipliers['defense'] = 126;
-      multipliers['melee'] = 126;
-      multipliers['charging'] = 84;
-      // Magic/Nature
-      multipliers['conjuring'] = 105;
-      multipliers['faith'] = 84;
-      multipliers['magic attack'] = 126;
-      multipliers['magic defense'] = 126;
-      multipliers['telepathy'] = 105;
-      multipliers['healing'] = 84;
-      multipliers['acrobatics'] = 105;
-      multipliers['entertaining'] = 105;
-      multipliers['nature'] = 105;
-      // Deception
-      multipliers['locks'] = 21;
-      multipliers['murder'] = 147;
-      multipliers['stealing'] = 126;
-      multipliers['stealth'] = 84;
-      break;
-    case 'ice':
-      // Combat
-      multipliers['attack'] = 100;
-      multipliers['defense'] = 84;
-      multipliers['melee'] = 105;
-      multipliers['charging'] = 126;
-      // Magic/Nature
-      multipliers['conjuring'] = 126;
-      multipliers['faith'] = 84;
-      multipliers['acrobatics'] = 63;
-      multipliers['entertaining'] = 84;
-      multipliers['magic attack'] = 147;
-      multipliers['magic defense'] = 147;
-      multipliers['telepathy'] = 126;
-      multipliers['healing'] = 84;
-      multipliers['nature'] = 126;
-      // Deception
-      multipliers['locks'] = 21;
-      multipliers['stealing'] = 21;
-      multipliers['stealth'] = 84;
-      break;
-    case 'water':
-      // Combat
-      multipliers['attack'] = 105;
-      multipliers['defense'] = 105;
-      multipliers['melee'] = 105;
-      multipliers['charging'] = 84;
-      // Magic/Nature
-      multipliers['conjuring'] = 126;
-      multipliers['faith'] = 126;
-      multipliers['magic attack'] = 105;
-      multipliers['magic defense'] = 147;
-      multipliers['telepathy'] = 126;
-      multipliers['healing'] = 147;
-      multipliers['acrobatics'] = 63;
-      multipliers['entertaining'] = 84;
-      multipliers['nature'] = 126;
-      // Deception
-      multipliers['locks'] = 21;
-      multipliers['stealing'] = 21;
-      multipliers['stealth'] = 84;
-      break;
     default:
       break;
   }
 
-  var baseMultipliers = getBaseMultipliers(charClass);
-  for (const skill in multipliers) {
-    if (baseMultipliers[skill] !== multipliers[skill]) {
-      const newMultiplier = multipliers[skill];
-      baseMultipliers[skill] = newMultiplier;
-    }
+  /*
+   * Warrior specialization overrides.
+   */
+  if (normalizedSubclass === 'warrior') {
+    applyWarriorSpecializations(multipliers, warriorSpecializations);
   }
 
-  var result = {};
-  for (const skill in baseMultipliers) {
-    if (baseMultipliers[skill] > 0) {
-      result[skill] = baseMultipliers[skill];
-    }
-  }
-  return result;
+  /*
+   * Skills with a multiplier of 0 are unavailable and should not
+   * be returned.
+   */
+  return Object.fromEntries(Object.entries(multipliers).filter(([, multiplier]) => multiplier > 0));
 }
+
+/*
+|--------------------------------------------------------------------------
+| Skill maximum
+|--------------------------------------------------------------------------
+*/
 
 export function getSkillMax(multipliers, skill, level) {
   const multiplier = multipliers[skill];
+
   return Math.floor((multiplier / 20) * (level + 1));
 }
 
-export function getSkillCost(multipliers, charClass, skill, skillLevel, count) {
-  skillLevel = parseInt(skillLevel);
-  count = parseInt(count);
+/*
+|--------------------------------------------------------------------------
+| Skill training cost
+|--------------------------------------------------------------------------
+*/
 
-  if (!count || count <= 0) {
+export function getSkillCost(multipliers, charClass, skill, skillLevel, count) {
+  skillLevel = parseInt(skillLevel) || 0;
+  count = parseInt(count) || 0;
+
+  if (count <= 0) {
     return 0;
-  } else if (count > 999) {
+  }
+
+  if (count > 999) {
     count = 999;
   }
 
-  const cost = (trainingFormula(charClass, skill, skillLevel) + 1) * 4;
+  const cost = (trainingFormula(charClass, skillLevel, skill) + 1) * 4;
+
   return cost + getSkillCost(multipliers, charClass, skill, skillLevel + 1, count - 1);
 }

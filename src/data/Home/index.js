@@ -1,5 +1,9 @@
 const updates = [
   {
+    date: '8/11/2026',
+    message: 'Updated Skills and Stats Calculators with new tiered system.',
+  },
+  {
     date: '8/10/2026',
     message: 'Added GMCP to the Guides section.',
   },
