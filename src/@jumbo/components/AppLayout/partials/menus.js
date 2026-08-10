@@ -185,6 +185,12 @@ export const sidebarNavs = [
         ],
       },
       {
+        name: 'GMCP',
+        type: 'item',
+        icon: <AccessibilityNew />,
+        link: '/guides/gmcp',
+      },
+      {
         name: 'Newbie',
         type: 'item',
         icon: <AccessibilityNew />,
@@ -195,6 +201,12 @@ export const sidebarNavs = [
         type: 'item',
         icon: <AccessibilityNew />,
         link: '/guides/pets',
+      },
+      {
+        name: 'GMCP',
+        type: 'item',
+        icon: <AccessibilityNew />,
+        link: '/guides/gmcp',
       },
       // {
       //   name: 'Builder',
