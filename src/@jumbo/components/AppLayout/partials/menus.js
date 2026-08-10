@@ -202,12 +202,6 @@ export const sidebarNavs = [
         icon: <AccessibilityNew />,
         link: '/guides/pets',
       },
-      {
-        name: 'GMCP',
-        type: 'item',
-        icon: <AccessibilityNew />,
-        link: '/guides/gmcp',
-      },
       // {
       //   name: 'Builder',
       //   type: 'collapse',
