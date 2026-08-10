@@ -9,12 +9,6 @@ export const skillNames = {
 |--------------------------------------------------------------------------
 | Base skill multipliers
 |--------------------------------------------------------------------------
-|
-| These determine skill availability / maximum skill levels.
-|
-| A value of 0 means the skill is unavailable unless enabled by the
-| character's class or subclass.
-|
 */
 
 const BASE_SKILL_MULTIPLIERS = {
@@ -59,11 +53,6 @@ const BASE_SKILL_MULTIPLIERS = {
 |--------------------------------------------------------------------------
 | Class skill multipliers
 |--------------------------------------------------------------------------
-|
-| classSkillMultipliers[Class][Skill] = multiplier
-|
-| These retain your existing skill-max multiplier data.
-|
 */
 
 export const classSkillMultipliers = {
@@ -178,11 +167,6 @@ export const classSkillMultipliers = {
 |--------------------------------------------------------------------------
 | Subclass skill multipliers
 |--------------------------------------------------------------------------
-|
-| subclassSkillMultipliers[Subclass][Skill] = multiplier
-|
-| Subclass multipliers override class multipliers.
-|
 */
 
 export const subclassSkillMultipliers = {
@@ -535,19 +519,8 @@ export const subclassSkillMultipliers = {
 
 /*
 |--------------------------------------------------------------------------
-| NEW developer skill training tiers
+| Skill training tiers
 |--------------------------------------------------------------------------
-|
-| This replaces the old training formulas.
-|
-| Tier 1 = level²
-| Tier 2 = level² × 3
-| Tier 3 = level² × 9
-| Tier 4 = level² × 27
-| Tier 5 = level² × 81
-|
-| classSkillTiers[Class][Skill] = tier
-|
 */
 
 export const classSkillTiers = {
@@ -687,12 +660,6 @@ export const classSkillTiers = {
     default: 4,
   },
 
-  /*
-   * This is the developer C code's final "else" branch.
-   *
-   * Rogue uses this because there is no explicit Rogue branch
-   * in query_skill_tier().
-   */
   Default: {
     default: 5,
 
@@ -748,11 +715,6 @@ function getMountedSkill(race) {
 |--------------------------------------------------------------------------
 */
 
-/**
- * Direct equivalent of the developer's:
- *
- * int calculate_cost_by_tier(int level, int tier)
- */
 export function calculateCostByTier(level, tier) {
   level = parseInt(level) || 0;
   tier = parseInt(tier) || 5;
@@ -777,33 +739,14 @@ export function calculateCostByTier(level, tier) {
   }
 }
 
-/**
- * Direct equivalent of the developer's:
- *
- * int query_skill_tier(string cl, string skill)
- */
 export function getSkillTier(charClass, skill) {
   const classKey = findCaseInsensitiveKey(classSkillTiers, charClass);
 
-  /*
-   * "Default" itself is our representation of the C function's
-   * final else block.
-   */
   const rules = classKey && classKey !== 'Default' ? classSkillTiers[classKey] : classSkillTiers.Default;
 
   return rules[skill] ?? rules.default ?? 5;
 }
 
-/**
- * Direct equivalent of:
- *
- * int training_formula(string cl, int lvl, string skill) {
- *     return calculate_cost_by_tier(
- *         lvl,
- *         query_skill_tier(cl, skill)
- *     );
- * }
- */
 function trainingFormula(charClass, level, skill) {
   return calculateCostByTier(level, getSkillTier(charClass, skill));
 }
@@ -940,24 +883,6 @@ export function getSkillMax(multipliers, skill, level) {
 |--------------------------------------------------------------------------
 | Skill training cost
 |--------------------------------------------------------------------------
-|
-| IMPORTANT:
-|
-| The base cost now comes entirely from the developer's new tier system.
-|
-|   Tier 1 = level²
-|   Tier 2 = level² × 3
-|   Tier 3 = level² × 9
-|   Tier 4 = level² × 27
-|   Tier 5 = level² × 81
-|
-| The existing calculator wraps the training formula with:
-|
-|   (trainingFormula(...) + 1) * 4
-|
-| That behavior is retained because getSkillCost() already used that
-| surrounding cost calculation separately from training_formula().
-|
 */
 
 export function getSkillCost(multipliers, charClass, skill, skillLevel, count) {
