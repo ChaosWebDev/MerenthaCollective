@@ -1,6 +1,6 @@
 const updates = [
   {
-    note: 'Delete this when skilsl calculator is fixed',
+    note: 'Delete this when skills calculator is fixed',
     date: '8/10/2026',
     message: 'Skills Calculator is not currently 100% accurate. Please use with caution.',
   },
