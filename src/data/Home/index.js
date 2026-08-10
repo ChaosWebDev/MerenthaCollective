@@ -1,8 +1,7 @@
 const updates = [
   {
-    note: 'Delete this when skills calculator is fixed',
-    date: '8/10/2026',
-    message: 'Skills Calculator is not currently 100% accurate. Please use with caution.',
+    date: '8/11/2026',
+    message: "Updated Skills Calculator with new tier'd system.",
   },
   {
     date: '8/11/2026',

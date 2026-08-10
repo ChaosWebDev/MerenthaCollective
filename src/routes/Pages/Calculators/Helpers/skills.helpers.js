@@ -10,9 +10,10 @@ export const skillNames = {
 | Base skill multipliers
 |--------------------------------------------------------------------------
 |
-| These are the defaults before class and subclass modifiers are applied.
-| A value of 0 means the skill is unavailable unless enabled by the class
-| or subclass.
+| These determine skill availability / maximum skill levels.
+|
+| A value of 0 means the skill is unavailable unless enabled by the
+| character's class or subclass.
 |
 */
 
@@ -59,11 +60,9 @@ const BASE_SKILL_MULTIPLIERS = {
 | Class skill multipliers
 |--------------------------------------------------------------------------
 |
-| Structured as:
-|
 | classSkillMultipliers[Class][Skill] = multiplier
 |
-| Skills not listed here retain BASE_SKILL_MULTIPLIERS.
+| These retain your existing skill-max multiplier data.
 |
 */
 
@@ -180,14 +179,9 @@ export const classSkillMultipliers = {
 | Subclass skill multipliers
 |--------------------------------------------------------------------------
 |
-| Structured as:
-|
 | subclassSkillMultipliers[Subclass][Skill] = multiplier
 |
-| These override class multipliers.
-|
-| Special cases such as mounted skills and Warrior specializations are
-| handled separately below because they depend on race/player choices.
+| Subclass multipliers override class multipliers.
 |
 */
 
@@ -541,192 +535,188 @@ export const subclassSkillMultipliers = {
 
 /*
 |--------------------------------------------------------------------------
-| Training formula definitions
+| NEW developer skill training tiers
 |--------------------------------------------------------------------------
 |
-| Rather than hard-coding the formulas in a large switch statement, each
-| class defines which formula applies to which skill.
+| This replaces the old training formulas.
+|
+| Tier 1 = level²
+| Tier 2 = level² × 3
+| Tier 3 = level² × 9
+| Tier 4 = level² × 27
+| Tier 5 = level² × 81
+|
+| classSkillTiers[Class][Skill] = tier
 |
 */
 
-const trainingFormulas = {
-  square: (level) => level * level,
-
-  squareTimes3: (level) => level * level * 3,
-
-  squareTimes5: (level) => level * level * 5,
-
-  cube: (level) => level * level * level,
-
-  halfCube: (level) => Math.floor((level * level * level) / 2),
-
-  fourth: (level) => level * level * level * level,
-
-  squareTimesHalfLevel: (level) => level * level * Math.floor(level / 2),
-
-  mageDefense: (level) => level * level * Math.floor(level / 10) * Math.floor(level / 20),
-
-  mageFaith: (level) => level * level * level * Math.floor(level / 5),
-};
-
-/*
-|--------------------------------------------------------------------------
-| Class training rules
-|--------------------------------------------------------------------------
-|
-| Structured as:
-|
-| classTrainingRules[Class][Skill] = formula name
-|
-| Any skill not explicitly listed falls back to the class/default formula.
-|
-*/
-
-export const classTrainingRules = {
+export const classSkillTiers = {
   Dragon: {
-    default: 'fourth',
+    default: 5,
 
-    attack: 'squareTimes3',
-    defense: 'squareTimes3',
-    melee: 'squareTimes3',
-    charging: 'squareTimes3',
-    stealth: 'squareTimes3',
-    entertaining: 'squareTimes3',
-    acrobatics: 'squareTimes3',
-    conjuring: 'squareTimes3',
-    faith: 'squareTimes3',
-    healing: 'squareTimes3',
-    'magic attack': 'squareTimes3',
-    'magic defense': 'squareTimes3',
-    telepathy: 'squareTimes3',
-    nature: 'squareTimes3',
-    bargaining: 'squareTimes3',
-    stealing: 'squareTimes3',
-    murder: 'squareTimes3',
+    attack: 2,
+    defense: 2,
+    melee: 2,
+    charging: 2,
+    stealth: 2,
+    acrobatics: 2,
+    conjuring: 2,
+    faith: 2,
+    healing: 2,
+    'magic attack': 2,
+    'magic defense': 2,
+    telepathy: 2,
+    nature: 2,
+    bargaining: 2,
+    stealing: 2,
+    murder: 2,
+    entertaining: 2,
   },
 
   Fighter: {
-    default: 'fourth',
+    default: 5,
 
-    axe: 'square',
-    flail: 'square',
-    melee: 'square',
-    attack: 'square',
-    defense: 'square',
-    'double wielding': 'square',
-    charging: 'square',
-    riding: 'square',
-    'two handed': 'square',
-    blade: 'square',
-    knife: 'square',
-    blunt: 'square',
-    projectile: 'square',
-    ranged: 'square',
-    blocking: 'square',
+    melee: 1,
+    attack: 1,
+    defense: 1,
+    blade: 1,
+    blunt: 1,
+    knife: 1,
+    projectile: 1,
+    axe: 1,
+    flail: 1,
+    'two handed': 1,
+    'double wielding': 1,
+    ranged: 1,
+    charging: 1,
+    riding: 1,
 
-    'magic attack': 'squareTimes5',
-    nature: 'squareTimes5',
-    healing: 'squareTimes5',
-    faith: 'squareTimes5',
+    faith: 2,
 
-    stealing: 'cube',
-    bargaining: 'cube',
-    murder: 'cube',
+    nature: 3,
+    'magic attack': 3,
+    healing: 3,
+
+    stealth: 4,
+    locks: 4,
+    bargaining: 4,
+    stealing: 4,
   },
 
   Cleric: {
-    default: 'fourth',
+    default: 5,
 
-    'magic defense': 'square',
-    healing: 'square',
-    faith: 'square',
-    flail: 'square',
-    blunt: 'square',
-    bargaining: 'square',
+    blunt: 1,
+    flail: 1,
+    healing: 1,
+    faith: 1,
+    'magic defense': 1,
+    bargaining: 1,
 
-    knife: 'squareTimesHalfLevel',
-    murder: 'squareTimesHalfLevel',
-    projectile: 'squareTimesHalfLevel',
+    'magic attack': 2,
+    conjuring: 2,
 
-    axe: 'cube',
-    melee: 'cube',
-    defense: 'cube',
-    conjuring: 'cube',
-    'magic attack': 'cube',
+    melee: 3,
+    knife: 3,
+    murder: 3,
+    projectile: 3,
+
+    attack: 4,
+    defense: 4,
+    blade: 4,
+    axe: 4,
+    'double wielding': 4,
+    'two handed': 4,
   },
 
   Mage: {
-    default: 'fourth',
+    default: 5,
 
-    'magic attack': 'square',
-    'magic defense': 'square',
-    conjuring: 'square',
-    blunt: 'square',
-    flail: 'square',
-    telepathy: 'square',
-    nature: 'square',
+    'magic attack': 1,
+    'magic defense': 1,
+    conjuring: 1,
+    nature: 1,
+    telepathy: 1,
+    blunt: 1,
+    flail: 1,
 
-    projectile: 'cube',
-    melee: 'cube',
-    attack: 'cube',
-    knife: 'cube',
-    axe: 'cube',
-    bargaining: 'cube',
+    healing: 2,
 
-    healing: 'squareTimes5',
-    defense: 'mageDefense',
-    faith: 'mageFaith',
+    melee: 3,
+    axe: 3,
+    knife: 3,
+    projectile: 3,
+
+    attack: 4,
+    defense: 4,
+    'two handed': 4,
+    faith: 4,
+    'double wielding': 4,
+    blade: 4,
+    locks: 4,
+    bargaining: 4,
+
+    murder: 5,
   },
 
   Monk: {
-    default: 'fourth',
+    default: 5,
 
-    melee: 'square',
-    defense: 'square',
-    blunt: 'square',
-    projectile: 'square',
-    attack: 'square',
-    flail: 'square',
-    bargaining: 'square',
-    'magic defense': 'square',
-    faith: 'square',
+    melee: 1,
+    attack: 1,
+    defense: 1,
+    blunt: 1,
+    projectile: 1,
+    flail: 1,
+    bargaining: 1,
+    'magic defense': 1,
+    faith: 1,
 
-    'magic attack': 'halfCube',
-    axe: 'halfCube',
+    axe: 2,
+    nature: 2,
+    healing: 2,
 
-    healing: 'squareTimes5',
-    nature: 'squareTimes5',
+    knife: 3,
+    'magic attack': 3,
 
-    knife: 'cube',
-    conjuring: 'cube',
+    blade: 4,
+    conjuring: 4,
+  },
+
+  Child: {
+    default: 4,
   },
 
   /*
-   * Rogue and any unknown classes use the historical default training rules.
+   * This is the developer C code's final "else" branch.
+   *
+   * Rogue uses this because there is no explicit Rogue branch
+   * in query_skill_tier().
    */
   Default: {
-    default: 'fourth',
+    default: 5,
 
-    stealth: 'square',
-    melee: 'square',
-    attack: 'square',
-    defense: 'square',
-    knife: 'square',
-    bargaining: 'square',
-    murder: 'square',
-    stealing: 'square',
-    locks: 'square',
-    entertaining: 'square',
-    blunt: 'square',
-    'double wielding': 'square',
+    stealth: 1,
+    melee: 1,
+    attack: 1,
+    defense: 1,
+    knife: 1,
+    bargaining: 1,
+    murder: 1,
+    stealing: 1,
+    locks: 1,
+    entertaining: 1,
+    blunt: 1,
+    'double wielding': 1,
 
-    flail: 'cube',
-    axe: 'cube',
-    nature: 'cube',
-    telepathy: 'cube',
-    acrobatics: 'cube',
-    blade: 'cube',
-    projectile: 'cube',
+    'two handed': 4,
+    axe: 4,
+    blade: 4,
+    flail: 4,
+    projectile: 4,
+    acrobatics: 4,
+    nature: 4,
+    telepathy: 4,
   },
 };
 
@@ -752,20 +742,70 @@ function getMountedSkill(race) {
   return normalizedRace === 'centaur' || normalizedRace === 'satyr' ? 'charging' : 'riding';
 }
 
-function getTrainingRules(charClass) {
-  const classKey = findCaseInsensitiveKey(classTrainingRules, charClass);
+/*
+|--------------------------------------------------------------------------
+| Skill cost functions
+|--------------------------------------------------------------------------
+*/
 
-  return classKey ? classTrainingRules[classKey] : classTrainingRules.Default;
+/**
+ * Direct equivalent of the developer's:
+ *
+ * int calculate_cost_by_tier(int level, int tier)
+ */
+export function calculateCostByTier(level, tier) {
+  level = parseInt(level) || 0;
+  tier = parseInt(tier) || 5;
+
+  const base = level * level;
+
+  switch (tier) {
+    case 1:
+      return base;
+
+    case 2:
+      return base * 3;
+
+    case 3:
+      return base * 9;
+
+    case 4:
+      return base * 27;
+
+    default:
+      return base * 81;
+  }
 }
 
-function trainingFormula(charClass, skill, level) {
-  const rules = getTrainingRules(charClass);
+/**
+ * Direct equivalent of the developer's:
+ *
+ * int query_skill_tier(string cl, string skill)
+ */
+export function getSkillTier(charClass, skill) {
+  const classKey = findCaseInsensitiveKey(classSkillTiers, charClass);
 
-  const formulaName = rules[skill] || rules.default || 'fourth';
+  /*
+   * "Default" itself is our representation of the C function's
+   * final else block.
+   */
+  const rules = classKey && classKey !== 'Default' ? classSkillTiers[classKey] : classSkillTiers.Default;
 
-  const formula = trainingFormulas[formulaName] || trainingFormulas.fourth;
+  return rules[skill] ?? rules.default ?? 5;
+}
 
-  return formula(level);
+/**
+ * Direct equivalent of:
+ *
+ * int training_formula(string cl, int lvl, string skill) {
+ *     return calculate_cost_by_tier(
+ *         lvl,
+ *         query_skill_tier(cl, skill)
+ *     );
+ * }
+ */
+function trainingFormula(charClass, level, skill) {
+  return calculateCostByTier(level, getSkillTier(charClass, skill));
 }
 
 /*
@@ -798,13 +838,13 @@ function applyWarriorSpecializations(multipliers, warriorSpecializations) {
 
 /*
 |--------------------------------------------------------------------------
-| Public calculator functions
+| Public skill multiplier function
 |--------------------------------------------------------------------------
 */
 
 export function getSkillMultipliers(charClass, subclass, race, warriorSpecializations = null) {
   /*
-   * Start with the universal defaults.
+   * Start with universal defaults.
    */
   const multipliers = {
     ...BASE_SKILL_MULTIPLIERS,
@@ -820,7 +860,7 @@ export function getSkillMultipliers(charClass, subclass, race, warriorSpecializa
   }
 
   /*
-   * Healer is class-specific in the existing data:
+   * Existing special handling for Healer subclasses:
    *
    * Mage + Healer => HealerMage
    * Monk + Healer => HealerMonk
@@ -841,15 +881,13 @@ export function getSkillMultipliers(charClass, subclass, race, warriorSpecializa
   }
 
   /*
-   * Mounted skill varies by race.
+   * Some subclasses use either riding or charging depending on race.
    *
-   * Centaur / Satyr:
-   *   charging
-   *
-   * Everyone else:
-   *   riding
+   * Centaur / Satyr => charging
+   * Everyone else   => riding
    */
   const mountedSkill = getMountedSkill(race);
+
   const normalizedSubclass = String(subclass || '').toLowerCase();
 
   switch (normalizedSubclass) {
@@ -873,20 +911,24 @@ export function getSkillMultipliers(charClass, subclass, race, warriorSpecializa
   }
 
   /*
-   * Warrior specialization multipliers override normal Warrior values.
+   * Warrior specialization overrides.
    */
   if (normalizedSubclass === 'warrior') {
     applyWarriorSpecializations(multipliers, warriorSpecializations);
   }
 
   /*
-   * Remove unavailable skills.
-   *
-   * This preserves the existing behavior where a skill with multiplier 0
-   * does not appear in the returned multiplier collection.
+   * Skills with a multiplier of 0 are unavailable and should not
+   * be returned.
    */
   return Object.fromEntries(Object.entries(multipliers).filter(([, multiplier]) => multiplier > 0));
 }
+
+/*
+|--------------------------------------------------------------------------
+| Skill maximum
+|--------------------------------------------------------------------------
+*/
 
 export function getSkillMax(multipliers, skill, level) {
   const multiplier = multipliers[skill];
@@ -894,11 +936,35 @@ export function getSkillMax(multipliers, skill, level) {
   return Math.floor((multiplier / 20) * (level + 1));
 }
 
-export function getSkillCost(multipliers, charClass, skill, skillLevel, count) {
-  skillLevel = parseInt(skillLevel);
-  count = parseInt(count);
+/*
+|--------------------------------------------------------------------------
+| Skill training cost
+|--------------------------------------------------------------------------
+|
+| IMPORTANT:
+|
+| The base cost now comes entirely from the developer's new tier system.
+|
+|   Tier 1 = level²
+|   Tier 2 = level² × 3
+|   Tier 3 = level² × 9
+|   Tier 4 = level² × 27
+|   Tier 5 = level² × 81
+|
+| The existing calculator wraps the training formula with:
+|
+|   (trainingFormula(...) + 1) * 4
+|
+| That behavior is retained because getSkillCost() already used that
+| surrounding cost calculation separately from training_formula().
+|
+*/
 
-  if (!count || count <= 0) {
+export function getSkillCost(multipliers, charClass, skill, skillLevel, count) {
+  skillLevel = parseInt(skillLevel) || 0;
+  count = parseInt(count) || 0;
+
+  if (count <= 0) {
     return 0;
   }
 
@@ -906,7 +972,7 @@ export function getSkillCost(multipliers, charClass, skill, skillLevel, count) {
     count = 999;
   }
 
-  const cost = (trainingFormula(charClass, skill, skillLevel) + 1) * 4;
+  const cost = (trainingFormula(charClass, skillLevel, skill) + 1) * 4;
 
   return cost + getSkillCost(multipliers, charClass, skill, skillLevel + 1, count - 1);
 }
