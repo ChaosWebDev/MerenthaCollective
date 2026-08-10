@@ -1,11 +1,7 @@
 const updates = [
   {
     date: '8/11/2026',
-    message: "Updated Skills Calculator with new tier'd system.",
-  },
-  {
-    date: '8/11/2026',
-    message: "Updated Stats Calculator with new tier'd system.",
+    message: 'Updated Skills and Stats Calculators with new tiered system.',
   },
   {
     date: '8/10/2026',
